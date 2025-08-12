@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Крутая Кнопка</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #0f172a, #0ea5e9);
+      font-family: Arial, sans-serif;
+    }
+
+    .btn {
+      padding: 18px 42px;
+      border-radius: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(90deg,#ff416c,#ff4b2b);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(255,75,43,0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: yellow;
+      border-radius: 50%;
+      animation: fly 0.8s forwards;
+    }
+
+    @keyframes fly {
+      to {
+        transform: translate(var(--x), var(--y)) scale(0);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="btn" id="effectBtn">Нажми меня 
+    <div class="particles" id="particles"></div>
+  </button>
+
+  <audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
+  <script>
+    const btn = document.getElementById('effectBtn');
+    const particlesContainer = document.getElementById('particles');
+    const sound = document.getElementById('clickSound');
+    const redirectURL = "https://youtu.be/dQw4w9WgXcQ?si=z6JJDnVKm5G29U4k"; // 
+
+    btn.addEventListener('click', () => {
+      // Звук
+      sound.currentTime = 0;
+      sound.play();
+
+      // Частицы
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 80 + 20;
+        particle.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+        particle.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+        particlesContainer.appendChild(particle);
+        setTimeout(() => particle.remove(), 800);
+      }
+
+      // Редирект через 1.5 сек
+      setTimeout(() => {
+        window.location.href = redirectURL;
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
